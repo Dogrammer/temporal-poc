@@ -49,3 +49,13 @@ services:
       - TASK_QUEUE=housing-loans
     depends_on:
       - temporal
+
+  webapi:
+    build: ./TemporalWebApi
+    container_name: temporal-webapi
+    ports:
+      - "5044:5044"
+    environment:
+      - TEMPORAL__ADDRESS=temporal:7233
+    depends_on:
+      - temporal

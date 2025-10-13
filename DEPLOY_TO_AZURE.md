@@ -36,7 +36,7 @@ sudo apt-get update
 sudo apt-get install -y docker-compose-plugin
 ```
 
-### 5. Install .NET 8 (first time only)
+### 5. Install .NET 8 (optional - only needed if you want to run Web API outside Docker)
 ```bash
 wget https://dot.net/v1/dotnet-install.sh
 chmod +x dotnet-install.sh

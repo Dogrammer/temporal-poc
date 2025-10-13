@@ -23,22 +23,17 @@ fi
 echo "Stopping existing services..."
 docker compose down 2>/dev/null || true
 
-# Start Docker services
-echo "Starting Docker services (PostgreSQL, Temporal, Worker)..."
+# Start all Docker services (including Web API)
+echo "Starting all Docker services (PostgreSQL, Temporal, Worker, Web API)..."
 docker compose up -d --build
 
 # Wait for services to be ready
 echo "Waiting for services to start..."
-sleep 15
+sleep 20
 
 # Check if services are running
 echo "Checking services status..."
 docker compose ps
-
-# Start Web API
-echo "Starting Web API..."
-pkill -f "dotnet.*TemporalWebApi" 2>/dev/null || true
-nohup ~/.dotnet/dotnet run --project TemporalWebApi --urls "http://0.0.0.0:5044" > webapi.log 2>&1 &
 
 echo ""
 echo "✅ Deployment complete!"

@@ -1,8 +1,9 @@
 using Temporalio.Activities;
 using System.Text.Json;
 using System.Diagnostics;
+using TemporalPOC.Contracts.Models;
 
-namespace Activities;
+namespace TemporalPOC.Contracts.Activities;
 
 public interface ILoanActivities
 {
@@ -12,7 +13,6 @@ public interface ILoanActivities
     Task NotifyAsync(string loanId, string message);
 }
 
-public record RiskScoreResponse(int Score, string Rating, string Provider, long ApiCallDurationMs);
 
 public class LoanActivities : ILoanActivities
 {

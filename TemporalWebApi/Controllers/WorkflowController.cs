@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Temporalio.Client;
+using TemporalPOC.Contracts.Workflows;
+using TemporalPOC.Contracts.Models;
 
 namespace TemporalWebApi.Controllers;
 
@@ -31,7 +33,7 @@ public class WorkflowController : ControllerBase
             _logger.LogInformation("Starting workflow for loan {LoanId}", loanId);
 
             var handle = await _temporalClient.StartWorkflowAsync(
-                (Workflows.HousingLoanWorkflow wf) => wf.RunAsync(loanId),
+                (HousingLoanWorkflow wf) => wf.RunAsync(loanId),
                 new(id: workflowId, taskQueue: taskQueue));
 
             _logger.LogInformation("Started workflow {WorkflowId}", handle.Id);
@@ -79,7 +81,7 @@ public class WorkflowController : ControllerBase
         try
         {
             var handle = _temporalClient.GetWorkflowHandle(workflowId);
-            var result = await handle.GetResultAsync<Workflows.LoanWorkflowResult>();
+            var result = await handle.GetResultAsync<LoanWorkflowResult>();
 
             return Ok(new
             {

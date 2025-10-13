@@ -1,5 +1,7 @@
 using Temporalio.Client;
 using Temporalio.Worker;
+using TemporalPOC.Contracts.Workflows;
+using TemporalPOC.Contracts.Activities;
 
 var temporalAddress = Environment.GetEnvironmentVariable("TEMPORAL__ADDRESS") ?? "localhost:7233";
 var taskQueue = Environment.GetEnvironmentVariable("TASK_QUEUE") ?? "housing-loans";
@@ -7,12 +9,12 @@ var taskQueue = Environment.GetEnvironmentVariable("TASK_QUEUE") ?? "housing-loa
 Console.WriteLine($"[Worker] Connecting to Temporal at {temporalAddress}");
 var client = await TemporalClient.ConnectAsync(new TemporalClientConnectOptions(temporalAddress));
 
-var activities = new Activities.LoanActivities();
+var activities = new LoanActivities();
 
 using var worker = new TemporalWorker(
     client,
     new TemporalWorkerOptions(taskQueue)
-        .AddWorkflow<Workflows.HousingLoanWorkflow>()
+        .AddWorkflow<HousingLoanWorkflow>()
         .AddActivity(activities.SayHelloAsync)
         .AddActivity(activities.CheckDocumentsAsync)
         .AddActivity(activities.RiskScoreAsync)

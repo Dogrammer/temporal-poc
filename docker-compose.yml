@@ -41,7 +41,9 @@ services:
       - temporal
 
   worker:
-    build: ./TemporalWorker
+    build: 
+      context: .
+      dockerfile: TemporalWorker/Dockerfile
     container_name: temporal-worker
     environment:
       - TEMPORAL__ADDRESS=temporal:7233

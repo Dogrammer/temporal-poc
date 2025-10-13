@@ -1,6 +1,7 @@
 using Temporalio.Workflows;
+using TemporalPOC.Contracts.Models;
 
-namespace Workflows;
+namespace TemporalPOC.Contracts.Workflows;
 
 [Workflow]
 public class HousingLoanWorkflow
@@ -29,22 +30,15 @@ public class HousingLoanWorkflow
             (Activities.LoanActivities activities) => activities.NotifyAsync(loanId, $"Loan {loanId} processed with score {riskScore.Score}"),
             activityOptions);
         
-        return new LoanWorkflowResult(
-            LoanId: loanId,
-            Message: hello,
-            RiskScore: riskScore.Score,
-            RiskRating: riskScore.Rating,
-            Provider: riskScore.Provider,
-            ApiCallDurationMs: riskScore.ApiCallDurationMs
-        );
+        return new LoanWorkflowResult
+        {
+            LoanId = loanId,
+            Message = hello,
+            RiskScore = riskScore.Score,
+            RiskRating = riskScore.Rating,
+            Provider = riskScore.Provider,
+            ApiCallDurationMs = riskScore.ApiCallDurationMs
+        };
     }
 }
 
-public record LoanWorkflowResult(
-    string LoanId,
-    string Message,
-    int RiskScore,
-    string RiskRating,
-    string Provider,
-    long ApiCallDurationMs
-);

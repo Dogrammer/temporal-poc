@@ -1,9 +1,23 @@
 #!/bin/bash
 
-# Simple deployment script for Azure VM (POC)
-# Run this on your Azure VM after copying the project files
+# Git-based deployment script for Azure VM (POC)
+# Run this on your Azure VM to deploy from GitHub repository
 
-echo "🚀 Starting Temporal POC deployment..."
+REPO_URL="https://github.com/Dogrammer/temporal-poc.git"
+APP_DIR="~/temporal-poc"
+
+echo "🚀 Starting Temporal POC deployment from Git..."
+
+# Clone or update code from GitHub
+if [ -d "$APP_DIR" ]; then
+    echo "Updating existing code from GitHub..."
+    cd "$APP_DIR"
+    git pull origin master
+else
+    echo "Cloning repository from GitHub..."
+    git clone "$REPO_URL" "$APP_DIR"
+    cd "$APP_DIR"
+fi
 
 # Stop any running services
 echo "Stopping existing services..."

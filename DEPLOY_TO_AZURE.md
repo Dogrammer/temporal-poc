@@ -15,18 +15,14 @@ Add these rules:
 - **Port 7233** (Temporal) - Allow from Any  
 - **Port 8081** (Temporal UI) - Allow from Any
 
-### 2. Copy Project to Azure VM
+### 2. Deploy from GitHub (Recommended)
 ```bash
-# From your local machine
-scp -r /Users/neviomarjanovic/Downloads/TemporalPOC azureuser@<YOUR_VM_IP>:~/
-```
-
-### 3. SSH into VM
-```bash
+# SSH into your VM and run the deployment script
 ssh azureuser@<YOUR_VM_IP>
+# The deploy script will automatically clone from GitHub
 ```
 
-### 4. Install Docker (first time only)
+### 3. Install Docker (first time only)
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -34,13 +30,13 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-### 5. Install Docker Compose (first time only)
+### 4. Install Docker Compose (first time only)
 ```bash
 sudo apt-get update
 sudo apt-get install -y docker-compose-plugin
 ```
 
-### 6. Install .NET 8 (first time only)
+### 5. Install .NET 8 (first time only)
 ```bash
 wget https://dot.net/v1/dotnet-install.sh
 chmod +x dotnet-install.sh
@@ -49,11 +45,12 @@ echo 'export PATH=$PATH:$HOME/.dotnet' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 7. Deploy the Application
+### 6. Deploy the Application
 ```bash
-cd ~/TemporalPOC
-chmod +x deploy-azure.sh
-./deploy-azure.sh
+# Download and run the deployment script
+curl -o ~/deploy-azure.sh https://raw.githubusercontent.com/Dogrammer/temporal-poc/master/deploy-azure.sh
+chmod +x ~/deploy-azure.sh
+~/deploy-azure.sh
 ```
 
 ## That's It! 🎉
@@ -102,12 +99,13 @@ pkill -f "dotnet.*TemporalWebApi"
 When you make changes:
 
 ```bash
-# From local machine - copy updated files
-scp -r /Users/neviomarjanovic/Downloads/TemporalPOC azureuser@<YOUR_VM_IP>:~/
+# From local machine - commit and push changes
+git add .
+git commit -m "Your changes description"
+git push origin master
 
-# On VM - redeploy
-cd ~/TemporalPOC
-./deploy-azure.sh
+# On VM - redeploy from GitHub
+~/deploy-azure.sh
 ```
 
 ## Security Notes (For POC)

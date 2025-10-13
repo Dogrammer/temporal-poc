@@ -4,7 +4,7 @@
 # Run this on your Azure VM to deploy from GitHub repository
 
 REPO_URL="https://github.com/Dogrammer/temporal-poc.git"
-APP_DIR="~/temporal-poc"
+APP_DIR="$HOME/temporal-poc"
 
 echo "🚀 Starting Temporal POC deployment from Git..."
 
@@ -17,6 +17,16 @@ else
     echo "Cloning repository from GitHub..."
     git clone "$REPO_URL" "$APP_DIR"
     cd "$APP_DIR"
+fi
+
+# Add user to docker group if not already added
+echo "Checking Docker permissions..."
+if ! groups $USER | grep -q docker; then
+    echo "Adding user to docker group..."
+    sudo usermod -aG docker $USER
+    echo "⚠️  Please log out and log back in for Docker group changes to take effect"
+    echo "Then run this script again."
+    exit 1
 fi
 
 # Stop any running services

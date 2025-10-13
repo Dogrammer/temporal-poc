@@ -21,11 +21,11 @@ fi
 
 # Stop any running services
 echo "Stopping existing services..."
-docker compose down 2>/dev/null || true
+docker-compose down 2>/dev/null || true
 
 # Start all Docker services (including Web API)
 echo "Starting all Docker services (PostgreSQL, Temporal, Worker, Web API)..."
-docker compose up -d --build
+docker-compose up -d --build
 
 # Wait for services to be ready
 echo "Waiting for services to start..."
@@ -33,7 +33,7 @@ sleep 20
 
 # Check if services are running
 echo "Checking services status..."
-docker compose ps
+docker-compose ps
 
 echo ""
 echo "✅ Deployment complete!"
@@ -46,6 +46,6 @@ echo ""
 echo "📝 Test with:"
 echo "   curl -X POST http://$(curl -s ifconfig.me):5044/api/workflow/start-loan \\"
 echo "     -H 'Content-Type: application/json' \\"
-echo "     -d '{\"loanId\": \"test123\"}'"
+echo "     -d '{\"loanId\": \"test123\"}'"n
 echo ""
 

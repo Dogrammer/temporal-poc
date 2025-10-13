@@ -50,7 +50,9 @@ services:
       - temporal
 
   webapi:
-    build: ./TemporalWebApi
+    build: 
+      context: .
+      dockerfile: TemporalWebApi/Dockerfile
     container_name: temporal-webapi
     ports:
       - "5044:5044"

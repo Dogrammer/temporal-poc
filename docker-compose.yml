@@ -31,7 +31,7 @@ services:
       - "0.0.0.0:7233:7233"
 
   temporal-ui:
-    image: temporalio/ui:latest
+    image: temporalio/ui:2.30.0
     container_name: temporal-ui
     environment:
       - TEMPORAL_ADDRESS=temporal:7233

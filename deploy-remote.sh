@@ -6,6 +6,7 @@
 # Configuration - UPDATE THESE VALUES
 VM_USER="azureuser"
 VM_IP="YOUR_VM_IP_HERE"  # Replace with your actual VM IP
+
 VM_SSH_KEY=""  # Optional: path to SSH key file
 
 # Colors for output
@@ -51,6 +52,7 @@ if [ $? -eq 0 ]; then
     echo "   Web API: http://$VM_IP:5044"
     echo "   Swagger: http://$VM_IP:5044/swagger"
     echo "   Temporal UI: http://$VM_IP:8081"
+    echo "   pgAdmin: http://$VM_IP:8080"
     echo ""
     echo -e "${YELLOW}📝 Test with:${NC}"
     echo "   curl -X POST http://$VM_IP:5044/api/workflow/start-loan \\"

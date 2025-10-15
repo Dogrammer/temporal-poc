@@ -64,3 +64,15 @@ services:
       - TEMPORAL__ADDRESS=temporal:7233
     depends_on:
       - temporal
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: temporal-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@temporal.local
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    ports:
+      - "0.0.0.0:8080:80"
+    depends_on:
+      - postgres
+    restart: unless-stopped

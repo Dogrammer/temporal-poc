@@ -29,12 +29,7 @@ services:
       - POSTGRES_DB=temporal
     ports:
       - "0.0.0.0:7233:7233"
-    healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 7233 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 15
-      start_period: 30s
+    restart: unless-stopped
 
   temporal-ui:
     image: temporalio/ui:2.30.0
@@ -44,8 +39,7 @@ services:
     ports:
       - "0.0.0.0:8081:8080"
     depends_on:
-      temporal:
-        condition: service_healthy
+      - temporal
 
   worker:
     build: 
@@ -56,8 +50,7 @@ services:
       - TEMPORAL__ADDRESS=temporal:7233
       - TASK_QUEUE=housing-loans
     depends_on:
-      temporal:
-        condition: service_healthy
+      - temporal
     restart: unless-stopped
 
   webapi:
@@ -70,5 +63,4 @@ services:
     environment:
       - TEMPORAL__ADDRESS=temporal:7233
     depends_on:
-      temporal:
-        condition: service_healthy
+      - temporal
